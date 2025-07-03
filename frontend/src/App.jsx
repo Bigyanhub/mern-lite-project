@@ -1,30 +1,50 @@
-// App.jsx
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import './App.css'
 
 const App = () => {
+  const [formData, setFormData] = useState({ name: '', email: '', password: '' })
+  const [error, setError] = useState('')
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value })
+    setError('')
+  }
+
+  const handleSubmit = () => {
+    const { name, email, password } = formData
+    if (!name || !email || !password) {
+      setError('All fields are required.')
+    } else {
+      setError('')
+      console.log('Form submitted:', formData)
+      // Simulate submission here
+    }
+  }
+
   return (
-    <div className='form-container max-w-4xl mx-auto mt-10 p-8 bg-white rounded-lg shadow-md'>
-      <h1 className='form-title text-3xl font-bold mb-6'>User Registration Form</h1>
+    <div className='form-container max-w-4xl mx-auto mt-10 p-10 bg-white rounded-lg shadow-md'>
+      <h1 className='form-title text-3xl font-bold mb-6'>Register New User</h1>
       
       <div>
         <div className='form-group'>
-          <label className='form-label'>Name:</label>
-          <input type="text" className='form-input' />
+          <label className='form-label' htmlFor='name'>Name:</label>
+          <input type="text" id='name' name="name" className='form-input' value={formData.name} onChange={handleChange} />
         </div>
 
         <div className='form-group'>
-          <label className='form-label'>Email:</label>
-          <input type="email" className='form-input' />
+          <label className='form-label' htmlFor='email'>Email:</label>
+          <input type="email" id='email' name="email" className='form-input' value={formData.email} onChange={handleChange} />
         </div>
 
         <div className='form-group'>
-          <label className='form-label'>Password:</label>
-          <input type="password" className='form-input' />
+          <label className='form-label' htmlFor='password'>Password:</label>
+          <input type="password" id='password' name="password" className='form-input' value={formData.password} onChange={handleChange} />
         </div>
 
-        <div className='form-action mt-6'>
-          <button className='form-button'>Add User</button>
+        {error && <div className="form-error">{error}</div>}
+
+        <div className='mt-6 text-right'>
+          <button className='form-button' onClick={handleSubmit}>Submit</button>
         </div>
       </div>
     </div>
