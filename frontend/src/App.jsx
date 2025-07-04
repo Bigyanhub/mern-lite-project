@@ -17,28 +17,52 @@ const App = () => {
     } else {
       setError('')
       console.log('Form submitted:', formData)
-      // Simulate submission here
+      // Simulate form submission
     }
   }
 
   return (
     <div className='form-container max-w-4xl mx-auto mt-10 p-10 bg-white rounded-lg shadow-md'>
       <h1 className='form-title text-3xl font-bold mb-6'>Register New User</h1>
-      
+      {/* Updated input fields with placeholders */}
       <div>
         <div className='form-group'>
           <label className='form-label' htmlFor='name'>Name:</label>
-          <input type="text" id='name' name="name" className='form-input' value={formData.name} onChange={handleChange} />
+          <input
+            type="text"
+            id='name'
+            name="name"
+            className='form-input'
+            value={formData.name}
+            onChange={handleChange}
+            placeholder="Enter your name"
+          />
         </div>
 
         <div className='form-group'>
           <label className='form-label' htmlFor='email'>Email:</label>
-          <input type="email" id='email' name="email" className='form-input' value={formData.email} onChange={handleChange} />
+          <input
+            type="email"
+            id='email'
+            name="email"
+            className='form-input'
+            value={formData.email}
+            onChange={handleChange}
+            placeholder="Enter your email"
+          />
         </div>
 
         <div className='form-group'>
           <label className='form-label' htmlFor='password'>Password:</label>
-          <input type="password" id='password' name="password" className='form-input' value={formData.password} onChange={handleChange} />
+          <input
+            type="password"
+            id='password'
+            name="password"
+            className='form-input'
+            value={formData.password}
+            onChange={handleChange}
+            placeholder="Enter your password"
+          />
         </div>
 
         {error && <div className="form-error">{error}</div>}
