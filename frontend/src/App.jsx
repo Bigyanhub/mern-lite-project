@@ -24,7 +24,6 @@ const App = () => {
   return (
     <div className='form-container max-w-4xl mx-auto mt-10 p-10 bg-white rounded-lg shadow-md'>
       <h1 className='form-title text-3xl font-bold mb-6'>Register New User</h1>
-      {/* Updated input fields with placeholders */}
       <div>
         <div className='form-group'>
           <label className='form-label' htmlFor='name'>Name:</label>
@@ -36,6 +35,7 @@ const App = () => {
             value={formData.name}
             onChange={handleChange}
             placeholder="Enter your name"
+            data-testid="name-input" // Added for testing
           />
         </div>
 
@@ -49,6 +49,7 @@ const App = () => {
             value={formData.email}
             onChange={handleChange}
             placeholder="Enter your email"
+            data-testid="email-input" // Added for testing
           />
         </div>
 
@@ -62,6 +63,7 @@ const App = () => {
             value={formData.password}
             onChange={handleChange}
             placeholder="Enter your password"
+            data-testid="password-input" // Added for testing
           />
         </div>
 
