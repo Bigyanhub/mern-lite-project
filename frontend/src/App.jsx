@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const App = () => {
+  const navigate = useNavigate(); // For navigation
+
   // STATE: This is like memory for our component
   const [formData, setFormData] = useState({
     name: "",
@@ -93,6 +96,13 @@ const App = () => {
     }
   };
 
+  // FUNCTION: Handle edit button click
+  const handleEdit = (userId) => {
+    console.log("Edit clicked for user ID:", userId);
+    // Navigate to edit page with user ID
+    navigate(`/edit/${userId}`);
+  };
+
   return (
     <div className="p-8 bg-gray-100 min-h-screen">
       <h1 className="text-3xl font-bold text-center mb-8">
@@ -109,7 +119,8 @@ const App = () => {
             value={formData.name}
             onChange={handleChange}
             placeholder="Enter name"
-            className="w-full p-2 border border-gray-300 rounded"
+            required
+            className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
           <input
             type="email"
@@ -117,7 +128,8 @@ const App = () => {
             value={formData.email}
             onChange={handleChange}
             placeholder="Enter email"
-            className="w-full p-2 border border-gray-300 rounded"
+            required
+            className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
           <input
             type="password"
@@ -125,7 +137,8 @@ const App = () => {
             value={formData.password}
             onChange={handleChange}
             placeholder="Enter password"
-            className="w-full p-2 border border-gray-300 rounded"
+            required
+            className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
           <button 
             type="submit" 
@@ -135,22 +148,22 @@ const App = () => {
             {isLoading ? "Adding User..." : "Add User"}
           </button>
         </form>
-        
-        {/* DEBUG: Show current form data */}
+{/*         
+        DEBUG: Show current form data
         <div className="mt-4 p-3 bg-gray-100 rounded text-sm">
           <strong>Current Form Data (for learning):</strong>
           <pre className="mt-2 text-xs">{JSON.stringify(formData, null, 2)}</pre>
         </div>
         
-        {/* DEBUG: Show users array */}
+        DEBUG: Show users array
         <div className="mt-4 p-3 bg-blue-50 rounded text-sm">
           <strong>Users from Database ({users.length} users):</strong>
           <pre className="mt-2 text-xs">{JSON.stringify(users, null, 2)}</pre>
-        </div>
+        </div> */}
       </div>
 
       {/* Table Section */}
-      <div className="bg-white rounded-lg shadow overflow-hIdden max-w-4xl mx-auto">
+      <div className="bg-white rounded-lg shadow overflow-hidden max-w-4xl mx-auto">
         <div className="p-4 border-b">
           <h2 className="text-xl font-semibold">All Users ({users.length} total)</h2>
         </div>
@@ -171,10 +184,10 @@ const App = () => {
                   <td className="p-3">{user.Id}</td>
                   <td className="p-3">{user.name}</td>
                   <td className="p-3">{user.email}</td>
-                  <td className="p-3">{"*".repeat(user.password?.length || 0)}</td>
+                  <td className="p-3">{user.password}</td>
                   <td className="p-3">
                     <button 
-                      onClick={() => console.log("Edit clicked for user:", user)}
+                      onClick={() => handleEdit(user.Id)}
                       className="bg-yellow-500 text-white px-3 py-1 rounded mr-2 hover:bg-yellow-600"
                     >
                       Edit
