@@ -2,25 +2,32 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
-const EditUser = () => {
-  const { id } = useParams(); // Get user ID from URL
-  const navigate = useNavigate(); // For navigation
+/* ---------------------------- Component: EditUser --------------------------- */
+/* 
+   Description: 
+   This component allows editing an existing user's data (name, email, password).
+   It fetches user data on mount, displays a form with current values, and handles updates.
+*/
 
-  // STATE: Form data for editing
+const EditUser = () => {
+  const { id } = useParams(); // Extract user ID from URL parameters
+  const navigate = useNavigate(); // Hook for navigation after update or cancel
+
+  // ------------------------- State: Form Input Values ------------------------
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     password: ''
   });
 
-  // STATE: Loading states
-  const [isLoading, setIsLoading] = useState(true);
-  const [isUpdating, setIsUpdating] = useState(false);
+  // ------------------------- State: Loading & Submitting ---------------------
+  const [isLoading, setIsLoading] = useState(true); // Initial data loading state
+  const [isUpdating, setIsUpdating] = useState(false); // Form submission/loading state
 
-  // STATE: Error handling
-  const [error, setError] = useState('');
+  // ------------------------- State: Error Handling ---------------------------
+  const [error, setError] = useState(''); // Holds any fetch/update error message
 
-  // FUNCTION: Fetch user data when component loads
+  // ------------------- Fetch User Data from Server by ID ---------------------
   const fetchUserData = async () => {
     try {
       console.log('Fetching user data for ID:', id);
@@ -40,27 +47,27 @@ const EditUser = () => {
       console.error('Error fetching user data:', error);
       setError('Failed to load user data');
     } finally {
-      setIsLoading(false);
+      setIsLoading(false); // Stop showing loading UI
     }
   };
 
-  // EFFECT: Load user data when component mounts
+  // ---------------------- Load user data on component mount -------------------
   useEffect(() => {
     fetchUserData();
   }, [id]);
 
-  // FUNCTION: Handle input changes
+  // ---------------------------- Handle Form Input ----------------------------
   const handleChange = (e) => {
     const { name, value } = e.target;
     console.log(`Input changed: ${name} = ${value}`);
-    
+
     setFormData(prevData => ({
       ...prevData,
       [name]: value
     }));
   };
 
-  // FUNCTION: Handle form submission
+  // ----------------------------- Handle Form Submit ---------------------------
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsUpdating(true);
@@ -71,12 +78,8 @@ const EditUser = () => {
       const response = await axios.put(`http://localhost:5000/updateUser/${id}`, formData);
       console.log('Update response:', response.data);
 
-      // Show success message
       alert('User updated successfully!');
-      
-      // Navigate back to main page
-      navigate('/');
-      
+      navigate('/'); // Redirect to home page
     } catch (error) {
       console.error('Error updating user:', error);
       setError('Failed to update user. Please try again.');
@@ -85,12 +88,12 @@ const EditUser = () => {
     }
   };
 
-  // FUNCTION: Handle cancel button
+  // --------------------------- Handle Cancel Button ---------------------------
   const handleCancel = () => {
-    navigate('/'); // Go back to main page without saving
+    navigate('/'); // Go back to home without saving changes
   };
 
-  // Show loading state
+  // ----------------------------- Render Loading UI ----------------------------
   if (isLoading) {
     return (
       <div className="p-8 bg-gray-100 min-h-screen flex items-center justify-center">
@@ -102,7 +105,7 @@ const EditUser = () => {
     );
   }
 
-  // Show error state
+  // ------------------------------ Render Error UI -----------------------------
   if (error) {
     return (
       <div className="p-8 bg-gray-100 min-h-screen flex items-center justify-center">
@@ -120,6 +123,7 @@ const EditUser = () => {
     );
   }
 
+  // ---------------------------- Render Form UI --------------------------------
   return (
     <div className="p-8 bg-gray-100 min-h-screen">
       <div className="max-w-md mx-auto">
@@ -132,6 +136,7 @@ const EditUser = () => {
           <h2 className="text-xl font-semibold mb-4">Update User Information</h2>
           
           <form onSubmit={handleSubmit} className="space-y-4">
+            {/* Name Input */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
                 Name
@@ -147,6 +152,7 @@ const EditUser = () => {
               />
             </div>
 
+            {/* Email Input */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
                 Email
@@ -162,6 +168,7 @@ const EditUser = () => {
               />
             </div>
 
+            {/* Password Input */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
                 Password
@@ -177,14 +184,14 @@ const EditUser = () => {
               />
             </div>
 
-            {/* Error message */}
+            {/* Show any form-level error */}
             {error && (
               <div className="p-3 bg-red-100 border border-red-400 text-red-700 rounded">
                 {error}
               </div>
             )}
 
-            {/* Action buttons */}
+            {/* Form Buttons */}
             <div className="flex space-x-4">
               <button 
                 type="submit" 
@@ -205,11 +212,12 @@ const EditUser = () => {
             </div>
           </form>
 
-          {/* DEBUG: Show current form data
+          {/* Debug Section (for development only)
           <div className="mt-6 p-3 bg-gray-100 rounded text-sm">
-            <strong>Current Form Data (for learning):</strong>
+            <strong>Current Form Data (for debugging):</strong>
             <pre className="mt-2 text-xs">{JSON.stringify(formData, null, 2)}</pre>
-          </div> */}
+          </div> 
+          */}
         </div>
       </div>
     </div>

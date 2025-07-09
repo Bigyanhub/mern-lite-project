@@ -165,7 +165,7 @@ const App = () => {
       {/* Table Section */}
       <div className="bg-white rounded-lg shadow overflow-hidden max-w-4xl mx-auto">
         <div className="p-4 border-b">
-          <h2 className="text-xl font-semibold">All Users ({users.length} total)</h2>
+          <h2 className="text-xl font-semibold">All Users</h2>
         </div>
         <table className="w-full">
           <thead className="bg-gray-50">
