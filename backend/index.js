@@ -1,6 +1,6 @@
 import express from 'express';
-import userRoute from "./router/userRoute.js";
 import cors from 'cors';
+import userRoute from "./router/userRoute.js";
 
 //here app stores instance of express application
 //or we can also say app holds necessary "method" and properties
@@ -23,3 +23,6 @@ app.listen(port, ()=>{
 
 // or we can also use this instead
 // app.listen(port);
+
+
+//how to send file, how to retrieve
