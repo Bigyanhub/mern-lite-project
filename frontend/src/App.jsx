@@ -137,16 +137,16 @@ const App = () => {
         </form>
         
         {/* DEBUG: Show current form data */}
-        <div className="mt-4 p-3 bg-gray-100 rounded text-sm">
+        {/* <div className="mt-4 p-3 bg-gray-100 rounded text-sm">
           <strong>Current Form Data (for learning):</strong>
           <pre className="mt-2 text-xs">{JSON.stringify(formData, null, 2)}</pre>
-        </div>
+        </div> */}
         
         {/* DEBUG: Show users array */}
-        <div className="mt-4 p-3 bg-blue-50 rounded text-sm">
+        {/* <div className="mt-4 p-3 bg-blue-50 rounded text-sm">
           <strong>Users from Database ({users.length} users):</strong>
           <pre className="mt-2 text-xs">{JSON.stringify(users, null, 2)}</pre>
-        </div>
+        </div> */}
       </div>
 
       {/* Table Section */}
@@ -171,7 +171,7 @@ const App = () => {
                   <td className="p-3">{user.Id}</td>
                   <td className="p-3">{user.name}</td>
                   <td className="p-3">{user.email}</td>
-                  <td className="p-3">{"*".repeat(user.password?.length || 0)}</td>
+                  <td className="p-3">{user.password}</td>
                   <td className="p-3">
                     <button 
                       onClick={() => console.log("Edit clicked for user:", user)}
