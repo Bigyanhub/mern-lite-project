@@ -17,6 +17,7 @@ export const addUser = async (req, res) => {
     return res.send({ message: "All fields are required" });
   }
 
+  
   try {
     const salt = await bcrypt.genSalt(10);
     const hashPassword = await bcrypt.hash(password, salt);
