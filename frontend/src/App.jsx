@@ -166,6 +166,7 @@ const App = () => {
             </tr>
           </thead>
           <tbody>
+          {/* Render users dynamically */}
             {users.length > 0 ? (
               users.map((user, index) => (
                 <tr key={index} className="border-b hover:bg-gray-50">
@@ -199,17 +200,7 @@ const App = () => {
           </tbody>
         </table>
       </div>
-
-      {/* DEBUG: Show users array */}
-      {/* <div className="mt-4 p-3 bg-blue-50 rounded text-sm"><    /div>
-        <strong>Users from Database ({users.length} users):</strong>
-        <pre className="mt-2 text-xs">{JSON.stringify(users, null, 2)}</pre>
-      </div> */}
-      <div className="mt-4 p-3 bg-green-50 rounded text-sm">
-        <strong>Users from Database ({users.length} users):</strong>
-        <pre className="mt-2 text-xs">{JSON.stringify(users, null, 2)}</pre>
-      
-      </div>
+    </div>
   );
 };
 
