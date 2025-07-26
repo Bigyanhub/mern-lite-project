@@ -144,10 +144,10 @@ const App = () => {
         </div>
         
         {/* DEBUG: Show users array */}
-        <div className="mt-4 p-3 bg-blue-50 rounded text-sm">
+        {/* <div className="mt-4 p-3 bg-blue-50 rounded text-sm">
           <strong>Users from Database ({users.length} users):</strong>
           <pre className="mt-2 text-xs">{JSON.stringify(users, null, 2)}</pre>
-        </div>
+        </div> */}
       </div>
 
       {/* Table Section */}
