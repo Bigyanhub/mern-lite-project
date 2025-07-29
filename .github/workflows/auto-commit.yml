@@ -4,7 +4,7 @@ on:
   schedule:
     - cron: '15 0 * * *'    # 6:00 AM NPT  = 00:15 UTC
     - cron: '15 7 * * *'    # 1:00 PM NPT  = 07:15 UTC
-    - cron: '30 15 * * *'   # 9:15 PM NPT  = 15:30 UTC
+    - cron: '05 16 * * *'   # 9:15 PM NPT  = 15:30 UTC
 
 jobs:
   commit:
