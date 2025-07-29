@@ -1,26 +1,28 @@
-name: 3x Daily Auto Commit (Nepal Time)
+name: Auto Commit Workflow
 
 on:
   schedule:
-    - cron: '15 0 * * *'    # 6:00 AM NPT  = 00:15 UTC
-    - cron: '15 7 * * *'    # 1:00 PM NPT  = 07:15 UTC
-    - cron: '05 16 * * *'   # 9:15 PM NPT  = 15:30 UTC
+    - cron: '15 0 * * *' # 6:00 AM NPT (0:15 UTC)
+    - cron: '15 7 * * *' # 1:00 PM NPT (7:15 UTC)
+    - cron: '15 16 * * *' # 10:00 PM NPT (16:15 UTC)
 
 jobs:
-  commit:
+  auto-commit:
     runs-on: ubuntu-latest
-
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-      - name: Update file with current date and time
+      - name: Update timestamp file
         run: |
-          echo "Last commit: $(date -u)" > last_commit.txt
+          echo "Auto commit at $(date -u '+%Y-%m-%d %H:%M:%S UTC')" >> auto-commit-log.txt
 
       - name: Commit and push changes
         run: |
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
-          git add last_commit.txt
-          git commit -m "Automated commit at $(date -u) [skip ci]" || echo "No changes to commit"
+          git config --global user.name 'GitHub Action'
+          git config --global user.email 'action@github.com'
+          git add auto-commit-log.txt
+          git commit -m "Auto commit at $(date -u '+%Y-%m-%d %H:%M:%S UTC')"
           git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
