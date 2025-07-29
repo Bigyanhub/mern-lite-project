@@ -14,7 +14,8 @@ jobs:
       - uses: actions/checkout@v3
 
       - name: Update file with current date and time
-        run: echo "Last commit: $(date -u)" > last_commit.txt
+        run: |
+          echo "Last commit: $(date -u)" > last_commit.txt
 
       - name: Commit and push changes
         run: |
