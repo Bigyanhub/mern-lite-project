@@ -138,10 +138,10 @@ const App = () => {
         </form>
         
         {/* DEBUG: Show current form data */}
-         {/* <div className="mt-4 p-3 bg-gray-100 rounded text-sm">
+         <div className="mt-4 p-3 bg-gray-100 rounded text-sm">
           <strong>Current Form Data (for learning):</strong>
           <pre className="mt-2 text-xs">{JSON.stringify(formData, null, 2)}</pre>
-        </div> */}
+        </div>
         
         {/* DEBUG: Show users array */}
         {/* <div className="mt-4 p-3 bg-blue-50 rounded text-sm">
