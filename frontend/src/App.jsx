@@ -103,7 +103,7 @@ const App = () => {
       {/* Form Section */}
       <div className="bg-white p-6 rounded-lg shadow mb-8 max-w-md mx-auto">
         <h2 className="text-xl font-semibold mb-4">Add New User</h2>
-        {/* <form onSubmit={handleSubmit} className="space-y-4">
+         <form onSubmit={handleSubmit} className="space-y-4">
           <input
             type="text"
             name="name"
@@ -135,7 +135,7 @@ const App = () => {
           >
             {isLoading ? "Adding User..." : "Add User"}
           </button>
-        </form> */}
+        </form>
         
         {/* DEBUG: Show current form data */}
          {/* <div className="mt-4 p-3 bg-gray-100 rounded text-sm">
