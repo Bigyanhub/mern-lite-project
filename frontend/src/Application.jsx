@@ -1,16 +1,33 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 
+/**
+ * User Management Application Component
+ * Provides CRUD operations for user data with a clean UI
+ * Features: Add, Edit, Delete, and View users
+ */
 const App = () => {
+  // State for storing the list of users fetched from the backend
   const [data, setData] = useState([]);
+
+  // Loading state to show spinner/disable buttons during API calls
   const [isLoading, setIsLoading] = useState(false);
+
+  // Stores the user object currently being edited (null when adding new user)
   const [editingUser, setEditingUser] = useState(null);
+
+  // Form data state for controlled input components
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     password: "",
   });
 
+  /**
+   * Handles input changes for all form fields
+   * Updates the formData state with the new value
+   * @param {Event} e - The input change event
+   */
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
@@ -19,27 +36,40 @@ const App = () => {
     }));
   };
 
+  /**
+   * Handles form submission for both creating new users and updating existing ones
+   * Sets loading state, makes API call, resets form, and refreshes user list
+   * @param {Event} e - Form submission event
+   */
   const handleSubmit = async (e) => {
     setIsLoading(true);
     e.preventDefault();
-    
+
     try {
       let result;
+      // Check if we're editing an existing user or creating a new one
       if (editingUser) {
-        result = await axios.put(`http://localhost:5000/updateUser/${editingUser.Id}`, formData);
+        // Update existing user via PUT request
+        result = await axios.put(
+          `http://localhost:5000/updateUser/${editingUser.Id}`,
+          formData
+        );
         console.log("Update response:", result.data);
         setEditingUser(null);
       } else {
+        // Create new user via POST request
         result = await axios.post("http://localhost:5000/addUser", formData);
         console.log("Add response:", result.data);
       }
-      
+
+      // Reset form fields after successful operation
       setFormData({
         name: "",
         email: "",
         password: "",
       });
-      
+
+      // Refresh the user list to show updated data
       await fetchData();
       setIsLoading(false);
     } catch (error) {
@@ -49,6 +79,10 @@ const App = () => {
     }
   };
 
+  /**
+   * Fetches all users from the backend API
+   * Updates the data state with the retrieved user list
+   */
   const fetchData = async () => {
     try {
       const response = await axios.get("http://localhost:5000/showAllUser");
@@ -61,21 +95,29 @@ const App = () => {
     }
   };
 
+  // Load all users when the component first mounts
   useEffect(() => {
     fetchData();
   }, []);
 
+  /**
+   * Deletes a user by their ID
+   * Shows confirmation and refreshes the user list after successful deletion
+   * @param {string|number} Id - The unique identifier of the user to delete
+   */
   const handleDelete = async (Id) => {
     try {
       console.log("Deleting user with Id:", Id);
       console.log("Id type:", typeof Id);
-      
+
       if (!Id) {
         console.error("No Id provIded for deletion");
         return;
       }
-      
-      const response = await axios.delete(`http://localhost:5000/deleteUser/${Id}`);
+
+      const response = await axios.delete(
+        `http://localhost:5000/deleteUser/${Id}`
+      );
       console.log("Delete response:", response.data);
       await fetchData();
     } catch (err) {
@@ -84,6 +126,10 @@ const App = () => {
     }
   };
 
+  /**
+   * Prepares user data for editing by populating the form
+   * @param {Object} user - The user object to edit
+   */
   const handleEdit = (user) => {
     setEditingUser(user);
     setFormData({
@@ -93,6 +139,9 @@ const App = () => {
     });
   };
 
+  /**
+   * Cancels the edit operation and resets the form to add mode
+   */
   const handleCancelEdit = () => {
     setEditingUser(null);
     setFormData({
@@ -105,17 +154,19 @@ const App = () => {
   return (
     <div className="min-h-screen bg-gray-50 py-8">
       <div className="max-w-4xl mx-auto px-4">
+        {/* Main Page Title */}
         <h1 className="text-3xl font-bold text-gray-900 mb-8 text-center">
           User Management System
         </h1>
-        
-        {/* Form Section */}
+
+        {/* User Form Section - Add/Edit Users */}
         <div className="bg-white rounded-lg shadow-md p-6 mb-8">
           <h2 className="text-xl font-semibold mb-4 text-gray-800">
-            {editingUser ? 'Edit User' : 'Add New User'}
+            {editingUser ? "Edit User" : "Add New User"}
           </h2>
-          
+
           <div className="space-y-4">
+            {/* Name Input Field */}
             <div>
               <input
                 onChange={handleChange}
@@ -127,7 +178,8 @@ const App = () => {
                 required
               />
             </div>
-            
+
+            {/* Email Input Field */}
             <div>
               <input
                 onChange={handleChange}
@@ -139,7 +191,8 @@ const App = () => {
                 required
               />
             </div>
-            
+
+            {/* Password Input Field */}
             <div>
               <input
                 onChange={handleChange}
@@ -151,16 +204,22 @@ const App = () => {
                 required
               />
             </div>
-            
+
+            {/* Form Action Buttons */}
             <div className="flex gap-2">
               <button
                 onClick={handleSubmit}
                 disabled={isLoading}
                 className="px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                {isLoading ? "Loading..." : editingUser ? "Update User" : "Add User"}
+                {isLoading
+                  ? "Loading..."
+                  : editingUser
+                  ? "Update User"
+                  : "Add User"}
               </button>
-              
+
+              {/* Cancel button - only shown when editing a user */}
               {editingUser && (
                 <button
                   onClick={handleCancelEdit}
@@ -173,14 +232,15 @@ const App = () => {
           </div>
         </div>
 
-        {/* Table Section */}
+        {/* User Data Table Section */}
         <div className="bg-white rounded-lg shadow-md overflow-hIdden">
           <div className="px-6 py-4 border-b border-gray-200">
             <h2 className="text-xl font-semibold text-gray-800">All Users</h2>
           </div>
-          
+
           <div className="overflow-x-auto">
             <table className="w-full">
+              {/* Table Header */}
               <thead className="bg-gray-50">
                 <tr>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wIder">
@@ -200,8 +260,10 @@ const App = () => {
                   </th>
                 </tr>
               </thead>
+              {/* Table Body with User Data */}
               <tbody className="bg-white divIde-y divIde-gray-200">
                 {data.length > 0 ? (
+                  // Map through users and display each one as a table row
                   data.map((item, index) => (
                     <tr key={index} className="hover:bg-gray-50">
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
@@ -214,9 +276,11 @@ const App = () => {
                         {item.email}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                        {/* Display password as asterisks for security */}
                         {"*".repeat(item.password?.length || 0)}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm font-medium space-x-2">
+                        {/* Edit Action Button */}
                         <button
                           onClick={() => {
                             console.log("Edit clicked for user:", item);
@@ -226,6 +290,7 @@ const App = () => {
                         >
                           Edit
                         </button>
+                        {/* Delete Action Button */}
                         <button
                           onClick={() => {
                             console.log("Delete clicked for user:", item);
@@ -240,8 +305,12 @@ const App = () => {
                     </tr>
                   ))
                 ) : (
+                  // Show empty state message when no users exist
                   <tr>
-                    <td colSpan="5" className="px-6 py-4 text-center text-gray-500">
+                    <td
+                      colSpan="5"
+                      className="px-6 py-4 text-center text-gray-500"
+                    >
                       No users found
                     </td>
                   </tr>
